@@ -1,17 +1,17 @@
-# Chainlink Python Serverless External Adapter Template
+# Chainlink Python External Adapter for XWC price
 
-This template shows a basic usecase of an external adapter written in Python for the CryptoCompare API. It can be ran locally, in Docker, AWS Lambda, or GCP Functions.
+This repository implemented chanlink external adapter for getting XWC price from XT exchange. It is coded by Python and chainlink official template.
 
 ## Install
 
 ```
-pipenv install
+pip install -r requirements.txt
 ```
 
-## Test
+## Run locally
 
 ```
-pipenv run pytest
+python app.py
 ```
 
 ## Run with Docker
