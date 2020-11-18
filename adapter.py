@@ -23,7 +23,7 @@ class Adapter:
         try:
             # 'https://127.0.0.1:50807/', 
             xt = Api('', '')
-            data = xt.get_ticker('xt_usdt')
+            data = xt.get_ticker('xwc_usdt')
             self.result = data['price']
             print(self.result)
             data['result'] = 'success'
