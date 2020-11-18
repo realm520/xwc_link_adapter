@@ -14,6 +14,61 @@ pip install -r requirements.txt
 python app.py
 ```
 
+## Config chainlink node
+1. Prepare a configuration file ".env"
+    ```
+ROOT=/chainlink
+LOG_LEVEL=debug
+ETH_CHAIN_ID=3
+MIN_OUTGOING_CONFIRMATIONS=2
+LINK_CONTRACT_ADDRESS=0x20fe562d797a42dcb3399062ae9546cd06f63280
+CHAINLINK_TLS_PORT=0
+SECURE_COOKIES=false
+ALLOW_ORIGINS=*
+DATABASE_TIMEOUT=0
+DATABASE_URL=postgresql://postgres:12345678@192.168.1.124:5432/chainlink?sslmode=disable
+ETHEREUM_DISABLED=true
+ETH_DISABLED=true
+FEATURE_EXTERNAL_INITIATORS=true
+CHAINLINK_DEV=true
+    ```
+2. Run chainlink docker
+    ```
+    docker run -p 6688:6688 -v ~/.chainlink-xwc:/chainlink -it --env-file=.env smartcontract/chainlink local n
+    ```
+3. Prepare external initiator keys
+    ```
+docker exec -it 9e45260878fc bash
+chainlink admin login
+chainlink initiators create xwc
+```
+4. Create a bridge named "xwcprice" and set the url to this server is running on.
+5. Replace the accessKey and secretKey in "initiator.py" with output in above command.
+6. Add a job in chainnode GUI:
+```
+{
+  "initiators": [
+    {
+      "type": "external",
+      "params": {
+        "name": "xwc"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "type": "xwcprice"
+    }
+  ],
+  "startAt": "2020-02-09T15:13:03Z",
+  "endAt": null
+}
+```
+7. Run initiator
+    ```
+    python initiator.py
+```
+
 ## Run with Docker
 
 Build the image
